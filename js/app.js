@@ -16,6 +16,10 @@
         inputSection: document.getElementById('input-section'),
         readerSection: document.getElementById('reader-section'),
         
+        // Logo
+        logoHome: document.getElementById('logo-home'),
+        homeBtn: document.getElementById('home-btn'),
+        
         // Input
         textInput: document.getElementById('text-input'),
         wordCount: document.getElementById('word-count'),
@@ -40,6 +44,7 @@
         completionWords: document.getElementById('completion-words'),
         completionSpeed: document.getElementById('completion-speed'),
         readAgainBtn: document.getElementById('read-again-btn'),
+        newTextBtn: document.getElementById('new-text-btn'),
         
         // Cognitive UI
         modeButtons: document.querySelectorAll('.btn-mode'),
@@ -274,6 +279,11 @@ Happy reading!`;
         elements.nextBtn.addEventListener('click', nextWord);
         elements.backBtn.addEventListener('click', backToInput);
         elements.readAgainBtn.addEventListener('click', restartReading);
+        elements.newTextBtn.addEventListener('click', backToInputAndClear);
+        
+        // Logo click to go home
+        elements.logoHome.addEventListener('click', backToInputAndClear);
+        elements.homeBtn.addEventListener('click', backToInputAndClear);
         
         // Speed Controls
         elements.speedSlider.addEventListener('input', handleSpeedChange);
@@ -513,6 +523,15 @@ Happy reading!`;
 
     function backToInput() {
         reader.pause();
+        elements.readerSection.classList.add('hidden');
+        elements.inputSection.classList.remove('hidden');
+        elements.textInput.focus();
+    }
+    
+    function backToInputAndClear() {
+        reader.pause();
+        elements.textInput.value = '';
+        elements.completionOverlay.classList.add('hidden');
         elements.readerSection.classList.add('hidden');
         elements.inputSection.classList.remove('hidden');
         elements.textInput.focus();
