@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Speed Reader - RSVP reading application for rapid text consumption">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Speed Reader | RSVP Reading Tool</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%236366f1' width='100' height='100' rx='20'/><path d='M20 30h25a15 15 0 0 1 15 15v35a10 10 0 0 0-10-10H20z' fill='white'/><path d='M80 30H55a15 15 0 0 0-15 15v35a10 10 0 0 1 10-10h30z' fill='white'/></svg>">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+                <span class="logo-text">Speed Reader</span>
+            </div>
+            <nav class="nav-controls">
+                <button id="theme-toggle" class="btn btn-icon" aria-label="Toggle theme" title="Toggle dark/light mode">
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                    </svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <button id="settings-toggle" class="btn btn-icon" aria-label="Settings" title="Open settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </button>
+                <button id="help-toggle" class="btn btn-icon" aria-label="Help" title="Keyboard shortcuts">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Input Section -->
+            <section id="input-section" class="section input-section">
+                <div class="section-header">
+                    <h2>Paste Your Text</h2>
+                    <div class="text-stats">
+                        <span id="word-count">0 words</span>
+                        <span class="divider">•</span>
+                        <span id="reading-time">~0 min</span>
+                    </div>
+                </div>
+                <textarea 
+                    id="text-input" 
+                    class="text-input" 
+                    placeholder="Paste or type your text here...
+
+You can paste articles, book chapters, emails, or any text you want to speed read.
+
+Pro tip: The optimal reading speed for most people is between 250-400 WPM. Start slower and gradually increase your speed as you become comfortable."
+                    aria-label="Text input for speed reading"
+                ></textarea>
+                <div class="input-actions">
+                    <button id="clear-btn" class="btn btn-secondary" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                        Clear
+                    </button>
+                    <button id="sample-btn" class="btn btn-secondary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        Load Sample
+                    </button>
+                    <button id="start-btn" class="btn btn-primary" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        Start Reading
+                    </button>
+                </div>
+            </section>
+
+            <!-- Reader Section -->
+            <section id="reader-section" class="section reader-section hidden">
+                <!-- Focus Display -->
+                <div class="reader-display">
+                    <div class="focus-container">
+                        <div class="focus-guides">
+                            <div class="guide-line guide-top"></div>
+                            <div class="guide-line guide-bottom"></div>
+                        </div>
+                        <div id="word-display" class="word-display">
+                            <span class="word-prefix"></span>
+                            <span class="word-focus"></span>
+                            <span class="word-suffix"></span>
+                        </div>
+                    </div>
+                    <!-- Completion Overlay -->
+                    <div id="completion-overlay" class="completion-overlay hidden">
+                        <div class="completed-message">
+                            <h3>🎉 Complete!</h3>
+                            <p id="completion-words"></p>
+                            <p id="completion-speed"></p>
+                            <button id="read-again-btn" class="btn btn-primary">Read Again</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span id="progress-words">0 / 0</span>
+                        <span id="progress-percent">0%</span>
+                        <span id="time-remaining">~0:00 remaining</span>
+                    </div>
+                </div>
+
+                <!-- Playback Controls -->
+                <div class="playback-controls">
+                    <button id="restart-btn" class="btn btn-control" title="Restart (R)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="1 4 1 10 7 10"></polyline>
+                            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                        </svg>
+                    </button>
+                    <button id="prev-btn" class="btn btn-control" title="Previous word (←)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                            <line x1="5" y1="19" x2="5" y2="5"></line>
+                        </svg>
+                    </button>
+                    <button id="play-pause-btn" class="btn btn-control btn-play" title="Play/Pause (Space)">
+                        <svg class="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <svg class="icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="6" y="4" width="4" height="16"></rect>
+                            <rect x="14" y="4" width="4" height="16"></rect>
+                        </svg>
+                    </button>
+                    <button id="next-btn" class="btn btn-control" title="Next word (→)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                            <line x1="19" y1="5" x2="19" y2="19"></line>
+                        </svg>
+                    </button>
+                    <button id="back-btn" class="btn btn-control" title="Back to input (Esc)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Speed Control -->
+                <div class="speed-control">
+                    <button id="speed-down" class="btn btn-speed" title="Decrease speed (↓)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <div class="speed-display">
+                        <input type="range" id="speed-slider" min="100" max="1000" value="300" step="25" aria-label="Reading speed">
+                        <span id="speed-value" class="speed-value">300 WPM</span>
+                    </div>
+                    <button id="speed-up" class="btn btn-speed" title="Increase speed (↑)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Quick Speed Presets -->
+                <div class="speed-presets">
+                    <button class="btn btn-preset" data-speed="150">Slow<br><small>150</small></button>
+                    <button class="btn btn-preset" data-speed="250">Normal<br><small>250</small></button>
+                    <button class="btn btn-preset active" data-speed="300">Fast<br><small>300</small></button>
+                    <button class="btn btn-preset" data-speed="450">Rapid<br><small>450</small></button>
+                    <button class="btn btn-preset" data-speed="600">Expert<br><small>600</small></button>
+                </div>
+
+                <!-- Reading Mode Selector -->
+                <div class="mode-selector">
+                    <span class="mode-label">Reading Mode:</span>
+                    <div class="mode-buttons">
+                        <button class="btn btn-mode" data-mode="scan" title="Quick overview, skip details">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="13 17 18 12 13 7"></polyline>
+                                <polyline points="6 17 11 12 6 7"></polyline>
+                            </svg>
+                            Scan
+                        </button>
+                        <button class="btn btn-mode active" data-mode="normal" title="Balanced speed and comprehension">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            Normal
+                        </button>
+                        <button class="btn btn-mode" data-mode="study" title="Deep comprehension, slower pace">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                            Study
+                        </button>
+                        <button class="btn btn-mode" data-mode="proofread" title="Careful attention to every word">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            Proofread
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cognitive Status Bar -->
+                <div class="cognitive-status">
+                    <div class="status-item" id="adaptive-indicator" title="Adaptive timing active">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"></path>
+                        </svg>
+                        <span>Adaptive</span>
+                    </div>
+                    <div class="status-item" id="fatigue-indicator" title="Fatigue level">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="fatigue-text">Fresh</span>
+                        <div class="fatigue-bar"><div class="fatigue-fill"></div></div>
+                    </div>
+                    <div class="status-item word-analysis" id="word-analysis" title="Current word analysis">
+                        <span class="analysis-tags"></span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Settings Panel -->
+        <aside id="settings-panel" class="settings-panel hidden">
+            <div class="settings-header">
+                <h3>Settings</h3>
+                <button id="settings-close" class="btn btn-icon" aria-label="Close settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-group">
+                    <label class="setting-label">Font Size</label>
+                    <div class="setting-control">
+                        <input type="range" id="font-size-slider" min="32" max="96" value="56" step="4">
+                        <span id="font-size-value">56px</span>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">Font Family</label>
+                    <select id="font-family-select" class="setting-select">
+                        <option value="'Inter', sans-serif">Inter (Default)</option>
+                        <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
+                        <option value="Georgia, serif">Georgia</option>
+                        <option value="system-ui, sans-serif">System UI</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">Focus Color</label>
+                    <div class="color-options">
+                        <button class="color-btn active" data-color="#ef4444" style="background: #ef4444" title="Red"></button>
+                        <button class="color-btn" data-color="#f97316" style="background: #f97316" title="Orange"></button>
+                        <button class="color-btn" data-color="#eab308" style="background: #eab308" title="Yellow"></button>
+                        <button class="color-btn" data-color="#22c55e" style="background: #22c55e" title="Green"></button>
+                        <button class="color-btn" data-color="#3b82f6" style="background: #3b82f6" title="Blue"></button>
+                        <button class="color-btn" data-color="#a855f7" style="background: #a855f7" title="Purple"></button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">
+                        <input type="checkbox" id="pause-punctuation" checked>
+                        Pause at punctuation
+                    </label>
+                    <small class="setting-hint">Adds extra time after periods, commas, etc.</small>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">
+                        <input type="checkbox" id="pause-long-words" checked>
+                        Extra time for long words
+                    </label>
+                    <small class="setting-hint">Gives more time for words over 8 characters</small>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">
+                        <input type="checkbox" id="show-context" checked>
+                        Show word context
+                    </label>
+                    <small class="setting-hint">Display previous/next word faintly</small>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">
+                        <input type="checkbox" id="focus-mode">
+                        Focus mode
+                    </label>
+                    <small class="setting-hint">Minimal UI during reading</small>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">
+                        <input type="checkbox" id="adaptive-mode" checked>
+                        Adaptive timing
+                    </label>
+                    <small class="setting-hint">AI-powered pacing based on word complexity</small>
+                </div>
+                <div class="setting-actions">
+                    <button id="reset-settings" class="btn btn-secondary">Reset to Defaults</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Help Modal -->
+        <div id="help-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Keyboard Shortcuts</h3>
+                    <button id="help-close" class="btn btn-icon" aria-label="Close help">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="shortcut-group">
+                        <h4>Playback</h4>
+                        <div class="shortcut"><kbd>Space</kbd> Play / Pause</div>
+                        <div class="shortcut"><kbd>←</kbd> Previous word</div>
+                        <div class="shortcut"><kbd>→</kbd> Next word</div>
+                        <div class="shortcut"><kbd>R</kbd> Restart from beginning</div>
+                        <div class="shortcut"><kbd>Esc</kbd> Return to input</div>
+                    </div>
+                    <div class="shortcut-group">
+                        <h4>Speed</h4>
+                        <div class="shortcut"><kbd>↑</kbd> Increase speed (+25 WPM)</div>
+                        <div class="shortcut"><kbd>↓</kbd> Decrease speed (-25 WPM)</div>
+                        <div class="shortcut"><kbd>1</kbd>-<kbd>5</kbd> Speed presets</div>
+                    </div>
+                    <div class="shortcut-group">
+                        <h4>Navigation</h4>
+                        <div class="shortcut"><kbd>[</kbd> Jump back 10 words</div>
+                        <div class="shortcut"><kbd>]</kbd> Jump forward 10 words</div>
+                        <div class="shortcut"><kbd>Home</kbd> Go to start</div>
+                        <div class="shortcut"><kbd>End</kbd> Go to end</div>
+                    </div>
+                    <div class="shortcut-group">
+                        <h4>Other</h4>
+                        <div class="shortcut"><kbd>T</kbd> Toggle theme</div>
+                        <div class="shortcut"><kbd>S</kbd> Open settings</div>
+                        <div class="shortcut"><kbd>?</kbd> Show this help</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p class="tip">💡 Cognitive adaptive timing analyzes each word for complexity, semantic weight, and your reading patterns to optimize pacing automatically.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <script src="js/cognitive-engine.js"></script>
+    <script src="js/reader.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
